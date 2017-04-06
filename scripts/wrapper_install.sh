@@ -7,11 +7,6 @@
 
 sudo apt-get update
 
-#Clone openstack ansible code base
-cd /tmp
-
-git clone https://github.com/kaushik1605/openstack-ansible.git
-
 # Initiate install of Ansible on Ubuntu machine
 
 cd /tmp/openstack-ansible/scripts
