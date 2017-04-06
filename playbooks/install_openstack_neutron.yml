@@ -1,0 +1,33 @@
+---
+# This playbook intends to install Openstack [Newton Branch] 
+# on a Ubuntu 16.04 server
+#
+
+- hosts: all
+
+  tasks: 
+
+  - name: Create an entry for password-less login for stack user
+    shell: echo "stack ALL=(ALL) NOPASSWD":" ALL" >> /etc/sudoers
+    become: yes
+    become_method: sudo 
+
+  - name: Download Openstack
+    shell: git clone https://git.openstack.org/openstack-dev/devstack -b stable/newton
+    become: yes
+    become_method: sudo 
+
+  - name: Change to install Directory
+    shell: cd devstack
+    become: yes
+    become_method: sudo
+
+  - name: Create local.conf 
+    shell: echo "[[local|localrc]]\nADMIN_PASSWORD=secret\nDATABASE_PASSWORD=\$ADMIN_PASSWORD\nRABBIT_PASSWORD=\$ADMIN_PASSWORD\nSERVICE_PASSWORD=\$ADMIN_PASSWORD" >> devstack/local.conf
+    become: yes
+    become_method: sudo 
+ 
+  - name: Start Install
+    shell: ./devstack/stack.sh
+    become: yes
+    become_method: sudo 
